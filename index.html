@@ -1,0 +1,329 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="jquery-ui.css" rel="stylesheet">
+		<style>
+			.no-close .ui-dialog-titlebar-close {
+			  display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- MODALLOGIN / Inicio -->
+		<div id="modalLogin" title="login">
+
+			<br />
+		  
+			<label>Usuario:</label><br />
+			<input type="text" name="usuario" id="usuario" /><br />
+			<br />
+			
+			<label>Contraseña:</label><br />
+			<input type="text" name="contrasenia" id="contrasenia" /><br />
+			<br />
+			  
+		</div>
+		<!-- MODALLOGIN / Fin -->
+
+		<!-- MODALRECETA / Inicio -->
+		<div id="modalReceta" title="Receta">
+
+			<br />
+
+			<label>Nombre:</label><br />
+			<input type="text" name="nombre" id="nombre" /><br />
+			<br />
+
+			<label>Descripción:</label><br />
+			<textarea name="descripcion" id="descripcion" /></textarea><br />
+			<br />
+
+			<label>Imagen (detalle):</label><br />
+			<input type="file" name="imagen" id="imagen" /><br />
+			<br />
+
+			<label>Url (archivo de descarga):</label><br />
+			<input type="file" name="url" id="url" /><br />
+			<br />
+				
+			<label>Costo:</label><br />
+			<input type="number" name="costo" id="costo" step="0.01" min="0" /><br />
+			<br />
+
+		</div>
+		<!-- MODALRECETA / Fin -->
+
+
+		<!-- MODALCONFIRMACIONBORRADO / Inicio -->
+		<!--div id="modalConfirmacionBorrado" title"Confirmación">
+		    
+		    ¡Desea eliminar esta receta!<br />
+		    <br />
+		    
+		    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		    <button type="button" class="btn btn-primary">Aceptar</button>
+
+		</div-->
+		<!-- MODALCONFIRMACIONBORRADO / Fin -->
+
+
+		<div id="contenedorPrincipal">
+			<ul>
+				<li><a href="#tabRecetas">Recetas</a></li>
+				<li><a href="#tabDescargas">Descargas</a></li>
+			</ul>
+
+			<div id="tabRecetas">
+				<button class="ui-button ui-widget ui-corner-all" onclick="$('#modalReceta').dialog('open');">Nuevo</button>
+				<div id="listadoRecetas">
+					<center>
+						<table>
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Descripción</th>
+									<th>Costo</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="tbodyRecetas">
+								
+							</tbody>
+						</table>
+					</center>
+				</div>
+			</div>
+
+			<div id="tabDescargas">
+				<div id="listadoDescargas">
+					<center>
+						<table>
+							<thead>
+								<tr>
+									<th>Costo</th>
+									<th>Identificador Móvil</th>
+									<th>Hora</th>
+								</tr>
+							</thead>
+							<tbody id="tbodyDescargas">
+								
+							</tbody>
+						</table>
+					</center>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="external/jquery/jquery.js"></script>
+		<script src="jquery-ui.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+		<script>
+			//VARIABLES LOGIN
+			var usuario="test";
+			var contrasenia="123456";
+
+			//CONFIGURACION FIREBASE
+			var config = {
+		      apiKey: 'AIzaSyBWm0XV7Pyoo_wcaYqmD052GQUth7I1jEc',
+		      authDomain: 'receipestore-c2e05',
+		      databaseURL: 'https://receipestore-c2e05.firebaseio.com/',
+		      storageBucket: 'gs://receipestore-c2e05.appspot.com'
+		    };
+		    firebase.initializeApp(config);
+
+			$(document).ready(function(){
+				obtenerRecetas();
+				obtenerDescargas();
+
+				$("#modalLogin").dialog({
+					dialogClass: "no-close",
+					modal: true,
+					width: 500,
+					buttons: [
+						{
+					      text: "Ok",
+					      //icon: "ui-icon-heart",
+					      click: login
+					    }
+					]
+				});
+
+				$("#modalReceta").dialog({
+					autoOpen: false,
+					modal:true,
+					width: 500,
+					buttons: [
+						{
+					      text: "Cerrar",
+					      //icon: "ui-icon-heart",
+					      click: function(){
+					      	$(this).dialog("close");
+					      }
+					    },
+					    {
+					      text: "Guardar",
+					      //icon: "ui-icon-heart",
+					      click: guardarReceta
+					    }
+					]
+				});
+				
+				$( function() {
+					$( "#contenedorPrincipal" ).tabs();
+				} );
+
+			});
+
+			//FUNCIONES
+			function login(){
+				if($("#usuario").val()==usuario&&$("#contrasenia").val()==contrasenia){
+					$( "#modalLogin" ).dialog( "close" );
+					return;
+				}
+				alert("Usuario o contraseña inválido");
+			}
+
+			function borrarReceta(key){
+				var ref = firebase.database().ref("articulos");
+				ref.child(key).remove();
+				obtenerRecetas();
+			}
+
+			function obtenerRecetas(){
+		    	$("#tbodyRecetas").empty();
+				var ref = firebase.database().ref("articulos");
+				ref.once("value", function(snapshot) {
+					var objects=snapshot.val();
+					var keys=Object.keys(objects);
+					var html="";
+					for(var i=0;i<keys.length;i++){
+						console.log(objects[keys[i]]);
+						html+="<tr>";
+						html+="<td>"+objects[keys[i]].nombre+"</td>";
+						html+="<td>"+objects[keys[i]].descripcion+"</td>";
+						html+="<td>"+objects[keys[i]].costo+"</td>";
+						html+="<td><button class='ui-button ui-widget ui-corner-all' onclick=\"borrarReceta('"+keys[i]+"');\">Borrar</button></td>";
+						html+="</tr>";
+					}
+					console.log(html);
+					$("#tbodyRecetas").append(html);
+				});
+			}
+
+			function obtenerDescargas(){
+				var ref = firebase.database().ref("descargas");
+				ref.once("value", function(snapshot) {
+					var objects=snapshot.val();
+					var keys=Object.keys(objects);
+					var html="";
+					for(var i=0;i<keys.length;i++){
+						console.log(objects[keys[i]]);
+						html+="<tr>";
+						html+="<td>"+objects[keys[i]].costo+"</td>";
+						html+="<td>"+objects[keys[i]].identificadorMovil+"</td>";
+						html+="<td>"+objects[keys[i]].timestamp+"</td>";
+						html+="</tr>";
+					}
+					console.log(html);
+					$("#tbodyDescargas").append(html);
+				});
+			}
+
+			function guardarReceta(){
+				var obj={
+					costo:parseFloat($("#costo").val()),
+					descripcion:$("#descripcion").val().trim(),
+					imagen:document.getElementById("imagen").files,
+					nombre:$("#nombre").val().trim(),
+					url:document.getElementById("url").files
+				};
+
+				if(validarReceta(obj)){
+					obj.imagen=guardarImagenReceta(obj.imagen[0]);
+					obj.url=guardarUrlDescarga(obj.url[0]);
+
+					//obj.imagen="asd";
+					//obj.url="asd";
+
+					var newKey = firebase.database().ref().child('articulos').push().key;
+					firebase.database().ref("articulos/"+newKey).set(obj);
+				}
+			}
+
+			function validarReceta(obj){
+				if(obj.nombre==""||obj.nombre==" "){
+					alert("El nombre es requerido");
+					return false;
+				}
+
+				if(obj.descripcion==""||obj.descripcion==" "){
+					alert("La descripcion es requerida");
+					return false;
+				}
+
+				if(isNaN(obj.costo)){
+					alert("El costo debe ser numérico");
+					return false;
+				}else if(obj.costo<=0){
+					alert("El costo debe ser mayor a cero");
+					return false;
+				}
+
+				var extensionesImagen = /^.*\.(jpg|png|jpeg)$/i;
+				if($("#imagen").val()==""||obj.imagen.length==0){
+					alert("La imagen es requerida");
+					return false;
+				}else if(!extensionesImagen.test(obj.imagen[0].name)){
+					alert("La imagen sólo puede ser png, jpg o jpeg");
+					return false;
+				}
+
+				var extensionesUrl = /^.*\.(pdf|jpg|png|jpeg)$/i;
+				if($("#url").val()==""||obj.url.length==0){
+					alert("La url es requerida");
+					return false;
+				}else if(!extensionesUrl.test(obj.url[0].name)){
+					alert("La imagen sólo puede ser pdf, png, jpg o jpeg");
+					return false;
+				}
+
+				return true;
+			}
+
+			function guardarImagenReceta(file){
+				var storageRef = firebase.storage().ref();
+				var t=new Date().getTime();
+				var path='imagenes/'+t+"_"+file.name;
+				var imagenesRef= storageRef.child(path);
+				imagenesRef.put(file).then(function(snapshot) {
+				  console.log('Uploaded a blob or file!');
+				});
+				return path;
+			}
+
+			function guardarUrlDescarga(file){
+				var storageRef = firebase.storage().ref();
+				var t=new Date().getTime();
+				var path='urls/'+t+"_"+file.name;
+				var urlRef= storageRef.child(path);
+				urlRef.put(file).then(function(snapshot) {
+				  console.log('Uploaded a blob or file!');
+				});
+				return path;
+			}
+		/*	
+			function limpiarFormularioRecetas(){
+				//TODO
+			}
+
+			
+
+			
+
+			
+		*/
+		</script>
+	</body>
+</html>
