@@ -13,7 +13,7 @@ if(!isset($_GET['usuario'])){
 }else{
 	$db = new Db();
 	$query="SELECT FROM usuario WHERE usuario='".$_GET['usuario']."' AND contrasenia='".$_GET['contrasenia']."'";
-	$result=$db->query($query);
+	$result=$db->select($query);
 
 	if($result){
 		echo json_encode(ok("Usuario creado satisfactoriamente",$result));
