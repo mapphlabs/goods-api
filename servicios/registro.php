@@ -4,10 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-echo "HOLA MUNDO";
+echo "HOLA MUNDO2";
 
-/*require_once("db.php");
-
+require_once("db.php");
+/*
 if(!isset($_GET['usuario']){
 	echo json_encode(error("Usuario requerido",null));
 }else if(!isset($_GET['contrasenia']){
