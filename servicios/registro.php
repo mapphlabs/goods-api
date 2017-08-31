@@ -12,7 +12,7 @@ if(!isset($_GET['usuario'])){
 	echo json_encode(error("Contraseña requerida",null));
 }else if(!isset($_GET['contrasenia2'])){
 	echo json_encode(error("Todos los campos son requeridos",null));
-}else if($_GET['contrasenia']!=$_GET['contrasenia2'])){
+}else if($_GET['contrasenia']!=$_GET['contrasenia2']){
 	echo json_encode(error("Las contraseñas no coinciden",null));
 }else{
 	/*$db = new Db();
