@@ -14,7 +14,7 @@ class Db {
         if(!isset(self::$connection)) {
             // Load configuration as an array. Use the actual location of your configuration file
             //$config = parse_ini_file('./config.ini'); 
-            self::$connection = new mysqli("$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/","adminIvIuW1B","TKu6vvLzlNdd","php");
+            self::$connection = new mysqli("/$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/","adminIvIuW1B","TKu6vvLzlNdd","php");
         }
 
         // If connection was not successful, handle the error
