@@ -9,7 +9,7 @@ echo "HOLA MUNDO3";
 require_once("db.php");
 
 if(!isset($_GET['usuario'])){
-	//echo json_encode(error("Usuario requerido",null));
+	echo json_encode(error("Usuario requerido",null));
 }/*else if(!isset($_GET['contrasenia'])){
 	echo json_encode(error("Contraseña requerida",null));
 }else if(!isset($_GET['contrasenia2'])){
@@ -34,6 +34,7 @@ function error($msg,$data){
 		"data"=>$data,
 		"status"=>"error"
 	);
+	return $obj;
 }
 
 function ok($msg,$data){
@@ -42,6 +43,7 @@ function ok($msg,$data){
 		"data"=>$data,
 		"status"=>"ok"
 	);
+	return $obj;
 }
 
 ?>
