@@ -12,7 +12,7 @@ if(!isset($_GET['usuario'])){
 	echo json_encode(error("Contraseña requerida",null));
 }else{
 	$db = new Db();
-	$query="SELECT FROM usuario WHERE usuario='".$_GET['usuario']."' AND contrasenia='".$_GET['contrasenia']."'";
+	$query="SELECT * FROM usuario WHERE usuario='".$_GET['usuario']."' AND contrasenia='".$_GET['contrasenia']."'";
 	$result=$db->select($query);
 
 	if($result){
