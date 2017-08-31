@@ -16,9 +16,9 @@ if(!isset($_GET['usuario'])){
 	$result=$db->select($query);
 
 	if($result){
-		echo json_encode(ok("Usuario creado satisfactoriamente",$result));
+		echo json_encode(ok("Consulta satisfactoria",$result));
 	}else{
-		echo json_encode(error("Error en base de datos",null));
+		echo json_encode(error("Sin coincidencias",null));
 	}
 }
 
