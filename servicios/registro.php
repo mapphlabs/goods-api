@@ -27,7 +27,7 @@ if(!isset($_GET['usuario']){
 		echo json_encode(error("Error en base de datos",null));
 	}
 }
-
+*/
 function error($msg,$data){
 	$obj=array(
 		"msg"=>$msg,
@@ -43,5 +43,5 @@ function ok($msg,$data){
 		"status"=>"ok"
 	);
 }
-*/
+
 ?>
