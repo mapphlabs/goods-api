@@ -4,13 +4,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-echo "HOLA MUNDO2";
+echo "HOLA MUNDO3";
 
 require_once("db.php");
 
 if(!isset($_GET['usuario'])){
-	echo json_encode(error("Usuario requerido",null));
-}else if(!isset($_GET['contrasenia'])){
+	//echo json_encode(error("Usuario requerido",null));
+}/*else if(!isset($_GET['contrasenia'])){
 	echo json_encode(error("Contraseña requerida",null));
 }else if(!isset($_GET['contrasenia2'])){
 	echo json_encode(error("Todos los campos son requeridos",null));
