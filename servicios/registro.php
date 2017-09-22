@@ -9,33 +9,33 @@ require_once("db.php");
 
 if(!isset($_REQUEST['nombre'])){
 	echo json_encode(error("Nombre requerido",null));
-}else if(!isset($_GET['apaterno'])){
+}else if(!isset($_REQUEST['apaterno'])){
 	echo json_encode(error("Apellido paterno requerido",null));
-}else if(!isset($_GET['amaterno'])){
+}else if(!isset($_REQUEST['amaterno'])){
 	echo json_encode(error("Apellido materno requerido",null));
-}else if(!isset($_GET['fnacimiento'])){
+}else if(!isset($_REQUEST['fnacimiento'])){
 	echo json_encode(error("Fecha de nacimiento requerido",null));
-}else if(!isset($_GET['cpostal'])){
+}else if(!isset($_REQUEST['cpostal'])){
 	echo json_encode(error("codigo postal requerido",null));
-}else if(!isset($_GET['colonia'])){
+}else if(!isset($_REQUEST['colonia'])){
 	echo json_encode(error("colonia requerido",null));
-}else  if(!isset($_GET['email'])){
+}else  if(!isset($_REQUEST['email'])){
 	echo json_encode(error("email requerido",null));
-}else if(!isset($_GET['email2'])){
+}else if(!isset($_REQUEST['email2'])){
 	echo json_encode(error("confirmaciond email requerido",null));
-}else if(!isset($_GET['contrasenia'])){
+}else if(!isset($_REQUEST['contrasenia'])){
 	echo json_encode(error("Contraseña requerida",null));
-}else if(!isset($_GET['contrasenia2'])){
+}else if(!isset($_REQUEST['contrasenia2'])){
 	echo json_encode(error("Todos los campos son requeridos",null));
-}else if(!isset($_GET['palabra'])){
+}else if(!isset($_REQUEST['palabra'])){
 	echo json_encode(error("Todos los campos son requeridos",null));
-}else if($_GET['contrasenia']!=$_GET['contrasenia2']){
+}else if($_REQUEST['contrasenia']!=$_REQUEST['contrasenia2']){
 	echo json_encode(error("Las contraseñas no coinciden",null));
-}else if($_GET['email']!=$_GET['email2']){
+}else if($_REQUEST['email']!=$_REQUEST['email2']){
 	echo json_encode(error("los emails no concide",null));
 }else{
 	$db = new Db();
-	$query="INSERT INTO usuario (usuario,contrasenia,id_perfil_usuario) VALUES ('".$_GET['usuario']."','".$_GET['contrasenia']."',0)";
+	$query="INSERT INTO usuario (usuario,contrasenia,id_perfil_usuario) VALUES ('".$_REQUEST['usuario']."','".$_REQUEST['contrasenia']."',0)";
 	$result=$db->query($query);
 
 	if($result){
