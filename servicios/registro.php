@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once("db.php");
 
 
-if(!isset($_GET['nombre'])){
+if(!isset($_REQUEST['nombre'])){
 	echo json_encode(error("Nombre requerido",null));
 }else if(!isset($_GET['apaterno'])){
 	echo json_encode(error("Apellido paterno requerido",null));
