@@ -37,7 +37,7 @@ if(!isset($_REQUEST['nombre'])){
 	$db = new Db();
 	$query="INSERT INTO usuario (nombre,a_paterno,a_materno,f_nacimiento,codigo_postal,colonia,email,contrasenia,palabra,tel_movil)	VALUES ('".$_REQUEST['nombre']."','".$_REQUEST['apaterno']."','".$_REQUEST['amaterno']."','".$_REQUEST['apaterno']."','".$_REQUEST['fnacimiento']."','".$_REQUEST['cpostal']."','".$_REQUEST['colonia']."','".$_REQUEST['email']."','".$_REQUEST['contrasenia']."','".$_REQUEST['palabra']."','".$_REQUEST['tel_movil']."')";
 	$result=$db->query($query);
-
+	echo $result;
 	if($result){
 		echo json_encode(ok("Usuario creado satisfactoriamente",$result));
 	}else{
