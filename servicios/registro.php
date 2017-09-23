@@ -19,7 +19,7 @@ if(!isset($_REQUEST['nombre'])){
 	echo json_encode(error("codigo postal requerido",null));
 }else if(!isset($_REQUEST['colonia'])){
 	echo json_encode(error("colonia requerido",null));
-}else  if(!isset($_REQUEST['email'])){
+	}else  if(!isset($_REQUEST['email'])){
 	echo json_encode(error("email requerido",null));
 }else if(!isset($_REQUEST['email2'])){
 	echo json_encode(error("confirmaciond email requerido",null));

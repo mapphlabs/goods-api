@@ -6,15 +6,15 @@ class Db {
 
     /**
      * Connect to the database
-     * 
+     *
      * @return bool false on failure / mysqli MySQLi object instance on success
      */
-    public function connect() {    
+    public function connect() {
         // Try and connect to the database
         if(!isset(self::$connection)) {
             // Load configuration as an array. Use the actual location of your configuration file
-            //$config = parse_ini_file('./config.ini'); 
-            self::$connection = new mysqli(getenv('OPENSHIFT_MYSQL_DB_HOST'),"adminpZWf47S","tmNFWQudFZFS","recipes");
+            //$config = parse_ini_file('./config.ini');
+            self::$connection = new mysqli(getenv('OPENSHIFT_MYSQL_DB_HOST'),"adminpZWf47S","tmNFWQudFZFS","goods");
         }
 
         // If connection was not successful, handle the error
@@ -61,7 +61,7 @@ class Db {
 
     /**
      * Fetch the last error from the database
-     * 
+     *
      * @return string Database error message
      */
     public function error() {
@@ -79,18 +79,18 @@ class Db {
         $connection = $this -> connect();
         return "'" . $connection -> real_escape_string($value) . "'";
     }
-	
+
 	public function beginTransaction(){
 		$connection = $this -> connect();
 		$connection->autocommit(FALSE);
 	}
-	
+
 	public function rollback(){
 		$connection = $this -> connect();
 		$connection->rollback();
 		$connection->autocommit(TRUE);
 	}
-	
+
 	public function commit(){
 		$connection = $this -> connect();
 		$connection->commit();
