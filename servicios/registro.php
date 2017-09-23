@@ -36,11 +36,15 @@ if(!isset($_REQUEST['nombre'])){
 }else{
 	$db = new Db();
 	$query="INSERT INTO usuario (nombre,a_paterno,a_materno,f_nacimiento,codigo_postal,colonia,email,contrasenia,palabra,tel_movil)
-		VALUES ('".$_REQUEST['nombre']."','".$_REQUEST['apaterno']."','".$_REQUEST['amaterno']."','".$_REQUEST['fnacimiento']."','".$_REQUEST['cpostal']."','".$_REQUEST['colonia']."','".$_REQUEST['email']."','".$_REQUEST['contrasenia']."','".$_REQUEST['palabra']."','".$_REQUEST['tel_movil']."')";
+		VALUES ('".$_REQUEST['nombre']."','".$_REQUEST['apaterno']."','".$_REQUEST['amaterno']."','"
+		.$_REQUEST['fnacimiento']."','".$_REQUEST['cpostal']."','".$_REQUEST['colonia']."','".$_REQUEST['email']."','".$_REQUEST['contrasenia']."','".$_REQUEST['palabra']."','".$_REQUEST['tel_movil']."')";
 	$result=$db->query($query);
-	echo $result;
-	if($result){
-		echo json_encode(ok("Usuario creado satisfactoriamente",$result));
+ 	if($result){
+
+		$queryResult ="select * from usuario where email = '".$_REQUEST['email']."'";
+		$response=$db->query($queryResult);
+		
+		echo json_encode(ok("Usuario creado satisfactoriamente",$result,$response));
 	}else{
 		echo json_encode(error("Error en base de datos",$result));
 	}
@@ -55,10 +59,11 @@ function error($msg,$data){
 	return $obj;
 }
 
-function ok($msg,$data){
+function ok($msg,$data,$response){
 	$obj=array(
 		"msg"=>$msg,
 		"data"=>$data,
+		"user"=>$response,
 		"status"=>"ok"
 	);
 	return $obj;
