@@ -41,9 +41,9 @@ if(!isset($_REQUEST['nombre'])){
 	$result=$db->query($query);
  	if($result){
 
-		$queryResult ="select * from usuario where email = '".$_REQUEST['email']."'";
-		$response=$db->query($queryResult);
-		
+		$queryResult ="SELECT * FROM usuario WHERE email = '".$_REQUEST['email']."'";
+		$response=$db->select($queryResult);
+
 		echo json_encode(ok("Usuario creado satisfactoriamente",$result,$response));
 	}else{
 		echo json_encode(error("Error en base de datos",$result));
