@@ -45,7 +45,7 @@ demo = {
         md.startAnimationForLineChart(dailySalesChart);
     },
 
-    initDashboardPageCharts: function() {
+    initcausasPageCharts: function() {
 
         /* ----------==========     Daily Sales Chart initialization    ==========---------- */
 
@@ -253,7 +253,7 @@ demo = {
 
         $.notify({
             icon: "notifications",
-            message: "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer."
+            message: "Welcome to <b>Material causas</b> - a beautiful freebie for every web developer."
 
         }, {
             type: type[color],
