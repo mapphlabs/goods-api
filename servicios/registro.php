@@ -6,6 +6,19 @@ error_reporting(E_ALL);
 
 require_once("db.php");
 
+try{
+
+	foreach ($_REQUEST as $key => $value) {
+		$aux=json_decode($key,true);
+	}
+
+	$_REQUEST=$aux;
+
+}catch(Exception $e){
+
+}
+
+
 
 if(!isset($_REQUEST['nombre'])){
 	echo json_encode(error("Nombre requerido",null));
