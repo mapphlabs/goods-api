@@ -37,7 +37,7 @@ function ok($msg,$data){
 		"data"=>$data,
 		"status"=>"ok"
 	);
-	return $obj;
+	return $obj;//set object
 }
 
 ?>
